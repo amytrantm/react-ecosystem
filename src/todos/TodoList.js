@@ -4,6 +4,7 @@ import TodoListItem from './TodoListItem';
 import { connect } from 'react-redux';
 //import { markAsCompleted } from './actions';
 import { displayAlert, loadTodos, removeTodoRequest, markAsCompletedRequest } from './thunks';
+import { getTodos, getTodosLoading } from './selectors';
 import './TodoList.css';
 
 const TodoList = ({ todos = [], onRemovePressed, onCompletedPress, onDisplayAlertClicked, isLoading, startLoadingTodos }) => {
@@ -31,9 +32,15 @@ const TodoList = ({ todos = [], onRemovePressed, onCompletedPress, onDisplayAler
    return isLoading ? loadingMessage : content
 }
 
+// const mapStateToProps = state => ({
+//    todos: state.todos,
+//    isLoading: state.isLoading
+// })
+
+// use selectors
 const mapStateToProps = state => ({
-   todos: state.todos,
-   isLoading: state.isLoading
+   todos: getTodos(state),
+   isLoading: getTodosLoading(state)
 })
 
 const mapDispatchToProps = dispatch => ({
