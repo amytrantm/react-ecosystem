@@ -3,11 +3,22 @@ import NewTodoForm from './NewTodoForm';
 import TodoListItem from './TodoListItem';
 import { connect } from 'react-redux';
 //import { markAsCompleted } from './actions';
-import { displayAlert, loadTodos, removeTodoRequest, markAsCompletedRequest } from './thunks';
-import { getTodos, getTodosLoading, getCompletedTodos, getIncompletedTodos } from './selectors';
-import './TodoList.css';
+import { loadTodos, removeTodoRequest, markAsCompletedRequest } from './thunks';
+import { getTodosLoading, getCompletedTodos, getIncompletedTodos } from './selectors';
+//import './styles/TodoList.css';
+import styled from 'styled-components';
 
-const TodoList = ({incompletedTodos,completedTodos , onRemovePressed, onCompletedPress, onDisplayAlertClicked, isLoading, startLoadingTodos }) => {
+const BigRedText = styled.h3`
+   font-size: 48px;
+   color: #FF0000;
+   text-align: center;
+`
+const ListWrapper = styled.div`
+    max-width: 700px;
+    margin: auto;
+`;
+
+const TodoList = ({incompletedTodos,completedTodos , onRemovePressed, onCompletedPress, isLoading, startLoadingTodos }) => {
 
    useEffect(()=> {
       startLoadingTodos()
@@ -15,7 +26,8 @@ const TodoList = ({incompletedTodos,completedTodos , onRemovePressed, onComplete
 
    const loadingMessage = <div>Loading ... </div>
    const content = (
-      <div className="list-wrapper">
+      <ListWrapper>
+         <BigRedText>Todo List</BigRedText>
          <NewTodoForm />
          <h3> Incomplete: </h3>
          {
@@ -39,7 +51,7 @@ const TodoList = ({incompletedTodos,completedTodos , onRemovePressed, onComplete
                // onCompletedPress={onDisplayAlertClicked}
                />
             )}
-      </div>
+      </ListWrapper>
    );
    return isLoading ? loadingMessage : content
 }
