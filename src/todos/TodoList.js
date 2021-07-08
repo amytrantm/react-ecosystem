@@ -4,10 +4,10 @@ import TodoListItem from './TodoListItem';
 import { connect } from 'react-redux';
 //import { markAsCompleted } from './actions';
 import { displayAlert, loadTodos, removeTodoRequest, markAsCompletedRequest } from './thunks';
-import { getTodos, getTodosLoading } from './selectors';
+import { getTodos, getTodosLoading, getCompletedTodos, getIncompletedTodos } from './selectors';
 import './TodoList.css';
 
-const TodoList = ({ todos = [], onRemovePressed, onCompletedPress, onDisplayAlertClicked, isLoading, startLoadingTodos }) => {
+const TodoList = ({incompletedTodos,completedTodos , onRemovePressed, onCompletedPress, onDisplayAlertClicked, isLoading, startLoadingTodos }) => {
 
    useEffect(()=> {
       startLoadingTodos()
@@ -17,13 +17,25 @@ const TodoList = ({ todos = [], onRemovePressed, onCompletedPress, onDisplayAler
    const content = (
       <div className="list-wrapper">
          <NewTodoForm />
+         <h3> Incomplete: </h3>
          {
-            todos.map(todo =>
+            incompletedTodos.map(todo =>
                <TodoListItem
                   key={todo.id}
                   todo={todo}
                   onRemovePressed={onRemovePressed}
                   onCompletedPress={onCompletedPress}
+               // onCompletedPress={onDisplayAlertClicked}
+               />
+            )}
+         <h3>Completed: </h3>
+         {
+            completedTodos.map(todo =>
+               <TodoListItem
+                  key={todo.id}
+                  todo={todo}
+                  onRemovePressed={onRemovePressed}
+                  //onCompletedPress={onCompletedPress}
                // onCompletedPress={onDisplayAlertClicked}
                />
             )}
@@ -39,14 +51,14 @@ const TodoList = ({ todos = [], onRemovePressed, onCompletedPress, onDisplayAler
 
 // use selectors
 const mapStateToProps = state => ({
-   todos: getTodos(state),
-   isLoading: getTodosLoading(state)
+   isLoading: getTodosLoading(state),
+   completedTodos: getCompletedTodos(state),
+   incompletedTodos: getIncompletedTodos(state)
 })
 
 const mapDispatchToProps = dispatch => ({
    onRemovePressed: id => dispatch(removeTodoRequest(id)), //thunk
    onCompletedPress: id => dispatch(markAsCompletedRequest(id)), //thunk
    startLoadingTodos: () => dispatch(loadTodos()) //thunk
-   //onDisplayAlertClicked: text => dispatch(displayAlert(text))   //example how thunk works
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
