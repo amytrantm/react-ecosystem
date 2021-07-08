@@ -19,6 +19,7 @@ const TodoList = ({ todos = [], onRemovePressed, onCompletedPress, onDisplayAler
          {
             todos.map(todo =>
                <TodoListItem
+                  key={todo.id}
                   todo={todo}
                   onRemovePressed={onRemovePressed}
                   onCompletedPress={onCompletedPress}
