@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import NewTodoForm from './NewTodoForm';
 import TodoListItem from './TodoListItem';
 import { connect } from 'react-redux';
-import { markAsCompleted } from './actions';
-import { displayAlert, loadTodos, removeTodoRequest } from './thunks';
+//import { markAsCompleted } from './actions';
+import { displayAlert, loadTodos, removeTodoRequest, markAsCompletedRequest } from './thunks';
 import './TodoList.css';
 
 const TodoList = ({ todos = [], onRemovePressed, onCompletedPress, onDisplayAlertClicked, isLoading, startLoadingTodos }) => {
@@ -38,7 +38,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
    onRemovePressed: id => dispatch(removeTodoRequest(id)), //thunk
-   onCompletedPress: text => dispatch(markAsCompleted(text)),
+   onCompletedPress: id => dispatch(markAsCompletedRequest(id)), //thunk
    startLoadingTodos: () => dispatch(loadTodos()) //thunk
    //onDisplayAlertClicked: text => dispatch(displayAlert(text))   //example how thunk works
 })

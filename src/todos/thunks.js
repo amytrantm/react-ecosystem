@@ -3,7 +3,8 @@ import {
     loadTodosSuccess, 
     loadTodosFailure,
     createTodo,
-    removeTodo
+    removeTodo,
+    markAsCompleted
 } from './actions';
 
 //get
@@ -52,6 +53,20 @@ export const removeTodoRequest = id => async (dispatch) => {
         dispatch(removeTodo(removedTodo));
     } catch (e) {
         dispatch(displayAlert(e));
+    }
+}
+
+
+//post to complete
+export const markAsCompletedRequest = id => async (dispatch) => {
+    try {
+        const response = await fetch(`http://localhost:8080/todos/${id}/completed`,{
+            method: 'post'
+        })
+        const updatedTodo = await response.json();
+        dispatch(markAsCompleted(updatedTodo))
+    } catch (error) {
+        dispatch(displayAlert(error))
     }
 }
 
